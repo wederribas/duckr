@@ -16,6 +16,7 @@ const HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
 const LAUNCH_COMMAND = process.env.npm_lifecycle_event
 
 const isProduction = LAUNCH_COMMAND === 'production'
+process.env.BABEL_ENV = LAUNCH_COMMAND
 
 const productionPlugin = new webpack.DefinePlugin({
   'process.env': {
@@ -37,11 +38,22 @@ const baseConfig = {
       { test: /\.css$/, loader: 'style-loader!css-loader' },
     ],
   },
+  resolve: {
+    alias: {
+      containers: path.resolve('./app/containers'),
+    },
+  },
 }
 
 const developmentConfig = {
   devtool: 'cheap-module-inline-source-map',
-  plugins: [HTMLWebpackPluginConfig],
+  devServer: {
+    contentBase: PATHS.build,
+    hot: true,
+    inline: true,
+    progress: true,
+  },
+  plugins: [HTMLWebpackPluginConfig, new webpack.HotModuleReplacementPlugin()],
 }
 
 const productionConfig = {

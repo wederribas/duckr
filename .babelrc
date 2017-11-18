@@ -5,5 +5,12 @@
     "stage-0",
     "flow"
   ],
-  "retainLines": true
+  "retainLines": true,
+  "env": {
+    "start": {
+      "presets": [
+        "react-hmre"
+      ]
+    }
+  }
 }

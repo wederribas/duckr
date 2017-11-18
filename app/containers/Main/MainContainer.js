@@ -1,5 +1,5 @@
-import React from 'react';
+import React from 'react'
 
-const MainContainer = () => <p>Hello World!</p>;
+const MainContainer = () => <p>{'Hello World!'}</p>
 
-export default MainContainer;
+export default MainContainer

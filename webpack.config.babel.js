@@ -45,6 +45,7 @@ const baseConfig = {
       containers: path.resolve('./app/containers'),
       components: path.resolve('./app/components'),
       sharedStyles: path.resolve('./app/sharedStyles'),
+      helpers: path.resolve('./app/helpers'),
     },
   },
 }

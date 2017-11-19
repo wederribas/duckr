@@ -25,9 +25,7 @@ const productionPlugin = new webpack.DefinePlugin({
 })
 
 const baseConfig = {
-  entry: [
-    PATHS.app,
-  ],
+  entry: [PATHS.app],
   output: {
     path: PATHS.build,
     filename: 'index_bunle.js',
@@ -35,12 +33,18 @@ const baseConfig = {
   module: {
     loaders: [
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
-      { test: /\.css$/, loader: 'style-loader!css-loader' },
+      {
+        test: /\.css$/,
+        loader:
+          'style-loader!css-loader?sourceMap&modules&localIdentName=[name]__[local]___[hash:base64:5]',
+      },
     ],
   },
   resolve: {
     alias: {
       containers: path.resolve('./app/containers'),
+      components: path.resolve('./app/components'),
+      sharedStyles: path.resolve('./app/sharedStyles'),
     },
   },
 }
@@ -61,6 +65,8 @@ const productionConfig = {
   plugins: [HTMLWebpackPluginConfig, productionPlugin],
 }
 
-export default Object.assign({}, baseConfig,
+export default Object.assign(
+  {},
+  baseConfig,
   isProduction === true ? productionConfig : developmentConfig
 )

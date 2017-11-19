@@ -25,7 +25,7 @@ const productionPlugin = new webpack.DefinePlugin({
 })
 
 const baseConfig = {
-  entry: [PATHS.app],
+  entry: ['babel-polyfill', PATHS.app],
   output: {
     path: PATHS.build,
     filename: 'index_bunle.js',
@@ -46,6 +46,8 @@ const baseConfig = {
       components: path.resolve('./app/components'),
       sharedStyles: path.resolve('./app/sharedStyles'),
       helpers: path.resolve('./app/helpers'),
+      config: path.resolve('./app/config'),
+      reduxConfig: path.resolve('./app/reduxConfig'),
     },
   },
 }

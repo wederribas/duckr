@@ -29,6 +29,7 @@ const baseConfig = {
   output: {
     path: PATHS.build,
     filename: 'index_bunle.js',
+    publicPath: '/',
   },
   module: {
     loaders: [
@@ -55,6 +56,7 @@ const baseConfig = {
 const developmentConfig = {
   devtool: 'cheap-module-inline-source-map',
   devServer: {
+    historyApiFallback: true,
     contentBase: PATHS.build,
     hot: true,
     inline: true,

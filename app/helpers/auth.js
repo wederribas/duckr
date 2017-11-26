@@ -9,3 +9,25 @@ export default function auth () {
     }, 2000)
   })
 }
+
+export function redirectBasedOnAuth ({ isAuthed, location, history }) {
+  const alreadyAuthed = checkIfAuthed(isAuthed)
+  const nextPathName = location.pathname
+  if (nextPathName === '/' || nextPathName === '/auth') {
+    if (alreadyAuthed === true) {
+      history.replace('feed')
+    }
+  } else {
+    if (alreadyAuthed !== true) {
+      history.replace('auth')
+    }
+  }
+}
+
+export function logout () {
+  console.log('Logged out!')
+}
+
+function checkIfAuthed (isAuthed) {
+  return isAuthed
+}

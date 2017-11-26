@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Authenticate } from 'components'
 import * as userActionCreators from 'reduxConfig/modules/users'
+import { redirectBasedOnAuth } from 'helpers/auth'
 
 class AuthenticateContainer extends Component {
   static propTypes = {
@@ -11,8 +12,17 @@ class AuthenticateContainer extends Component {
     error: PropTypes.string.isRequired,
     fetchAndHandleAuthedUser: PropTypes.func.isRequired,
   }
-  handleAuth = () => {
-    this.props.fetchAndHandleAuthedUser()
+  static contextTypes = {
+    router: PropTypes.object.isRequired,
+  }
+  componentWillMount () {
+    redirectBasedOnAuth(this.props)
+  }
+  handleAuth = e => {
+    e.preventDefault()
+    this.props
+      .fetchAndHandleAuthedUser()
+      .then(() => this.context.router.history.replace('feed'))
   }
   render () {
     return (
@@ -26,6 +36,7 @@ class AuthenticateContainer extends Component {
 
 function mapStateToProps (state) {
   return {
+    isAuthed: state.isAuthed,
     isFetching: state.isFetching,
     error: state.error,
   }

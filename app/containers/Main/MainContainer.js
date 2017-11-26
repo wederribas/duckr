@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { PropTypes } from 'prop-types'
 import { Navigation } from 'components'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { container, innerContainer } from './styles.css'
 
 class MainContainer extends Component {
@@ -18,4 +19,6 @@ class MainContainer extends Component {
   }
 }
 
-export default connect(state => ({ isAuthed: state.isAuthed }))(MainContainer)
+export default withRouter(
+  connect(state => ({ isAuthed: state.isAuthed }))(MainContainer)
+)

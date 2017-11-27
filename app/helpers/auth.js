@@ -1,33 +1,32 @@
-export default function auth () {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve({
-        name: 'Weder Ribas',
-        avatar: 'https://avatars2.githubusercontent.com/u/4594849?s=460&v=4',
-        uid: 'wederribas',
-      })
-    }, 2000)
-  })
-}
+import { ref, firebaseAuth } from 'config/constants'
 
-export function redirectBasedOnAuth ({ isAuthed, location, history }) {
-  const alreadyAuthed = checkIfAuthed(isAuthed)
-  const nextPathName = location.pathname
-  if (nextPathName === '/' || nextPathName === '/auth') {
-    if (alreadyAuthed === true) {
-      history.replace('feed')
-    }
-  } else {
-    if (alreadyAuthed !== true) {
-      history.replace('auth')
-    }
-  }
+export default function auth () {
+  return firebaseAuth().signInWithPopup(new firebaseAuth.FacebookAuthProvider())
 }
 
 export function logout () {
-  console.log('Logged out!')
+  return firebaseAuth().signOut()
 }
 
-function checkIfAuthed (isAuthed) {
-  return isAuthed
+export function saveUser (user) {
+  return ref
+    .child(`users/${user.uid}`)
+    .set(user)
+    .then(() => user)
+}
+
+export function redirectBasedOnAuth (props) {
+  if (props.isFetching === true) {
+    return
+  }
+  const nextPathName = props.location.pathname
+  if (nextPathName === '/' || nextPathName === '/auth') {
+    if (props.isAuthed === true) {
+      props.history.replace('feed')
+    }
+  } else {
+    if (props.isAuthed !== true) {
+      props.history.replace('auth')
+    }
+  }
 }

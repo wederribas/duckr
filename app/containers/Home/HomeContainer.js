@@ -1,9 +1,14 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Home } from 'components'
 import { connect } from 'react-redux'
 import { redirectBasedOnAuth } from 'helpers/auth'
 
 class HomeContainer extends Component {
+  static propTypes = {
+    isAuthed: PropTypes.bool.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+  }
   componentWillMount () {
     redirectBasedOnAuth(this.props)
   }
@@ -12,4 +17,7 @@ class HomeContainer extends Component {
   }
 }
 
-export default connect(state => ({ isAuthed: state.isAuthed }))(HomeContainer)
+export default connect(state => ({
+  isAuthed: state.isAuthed,
+  isFetching: state.isFetching,
+}))(HomeContainer)

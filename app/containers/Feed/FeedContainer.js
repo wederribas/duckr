@@ -8,6 +8,7 @@ import { redirectBasedOnAuth } from 'helpers/auth'
 class FeedContainer extends Component {
   static propTypes = {
     isAuthed: PropTypes.bool.isRequired,
+    isFetching: PropTypes.bool.isRequired,
   }
   componentWillMount () {
     redirectBasedOnAuth(this.props)
@@ -17,4 +18,7 @@ class FeedContainer extends Component {
   }
 }
 
-export default connect(state => ({ isAuthed: state.isAuthed }))(FeedContainer)
+export default connect(state => ({
+  isAuthed: state.isAuthed,
+  isFetching: state.isFetching,
+}))(FeedContainer)

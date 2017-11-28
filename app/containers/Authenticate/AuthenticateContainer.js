@@ -34,11 +34,11 @@ class AuthenticateContainer extends Component {
   }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps ({ users }) {
   return {
-    isAuthed: state.isAuthed,
-    isFetching: state.isFetching,
-    error: state.error,
+    isAuthed: users.isAuthed,
+    isFetching: users.isFetching,
+    error: users.error,
   }
 }
 

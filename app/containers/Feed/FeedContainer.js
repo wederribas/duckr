@@ -18,7 +18,7 @@ class FeedContainer extends Component {
   }
 }
 
-export default connect(state => ({
-  isAuthed: state.isAuthed,
-  isFetching: state.isFetching,
+export default connect(({ users }) => ({
+  isAuthed: users.isAuthed,
+  isFetching: users.isFetching,
 }))(FeedContainer)

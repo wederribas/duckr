@@ -39,3 +39,33 @@ body {
 .center {
   text-align: center;
 }
+
+.basetextareacontainer {
+  display: flex;
+  height: 110px;
+  margin: 10px;
+}
+
+.baseTextArea {
+  flex: 1;
+  border-radius: 3px;
+  padding: 8px 10px;
+  font-size: 18px;
+  resize: none;
+}
+
+.darkBtn {
+  background: #4a90e2;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 10px 15px;
+  border-style: none;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid #4a90e2;
+}
+
+.darkBtn:hover {
+  background: #1877e6;
+}

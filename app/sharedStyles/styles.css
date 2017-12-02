@@ -40,7 +40,7 @@ body {
   text-align: center;
 }
 
-.basetextareacontainer {
+.baseTextAreaContainer {
   display: flex;
   height: 110px;
   margin: 10px;

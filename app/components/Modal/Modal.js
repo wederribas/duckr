@@ -22,7 +22,7 @@ const modalStyles = {
 }
 
 const { object, string, func, bool } = PropTypes
-Modal.PropTypes = {
+Modal.propTypes = {
   duckText: string.isRequired,
   isOpen: bool.isRequired,
   user: object.isRequired,
@@ -38,8 +38,10 @@ export default function Modal (props) {
     console.log('User', props.user)
   }
   return (
-    <span className={darkBtn} onClick={props.openModal}>
-      {'Duck'}
+    <div id='modal-wrapper'>
+      <span className={darkBtn} onClick={props.openModal}>
+        {'Duck'}
+      </span>
       <ReactModal
         style={modalStyles}
         isOpen={props.isOpen}
@@ -66,6 +68,6 @@ export default function Modal (props) {
           {'Duck'}
         </button>
       </ReactModal>
-    </span>
+    </div>
   )
 }

@@ -1,4 +1,4 @@
-import saveDuck from 'helpers/api'
+import { saveDuck } from 'helpers/api'
 import { closeModal } from './modal'
 import { addSingleUsersDuck } from './usersDucks'
 
@@ -57,7 +57,7 @@ export function duckFanout (duck) {
   }
 }
 
-function addMultipleDucks (ducks) {
+export function addMultipleDucks (ducks) {
   return {
     type: ADD_MULTIPLE_DUCKS,
     ducks,

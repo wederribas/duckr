@@ -18,7 +18,7 @@ function saveLikeCount (duckId) {
   return ref.child(`likeCount/${duckId}`).set(0)
 }
 
-export default function saveDuck (duck) {
+export function saveDuck (duck) {
   const { duckId, duckPromise } = saveToDucks(duck)
 
   return Promise.all([
@@ -26,4 +26,18 @@ export default function saveDuck (duck) {
     saveToUserDucks(duck, duckId),
     saveLikeCount(duckId),
   ]).then(() => ({ ...duck, duckId }))
+}
+
+export function listenToFeed (cb, cbError) {
+  ref.child('ducks').on(
+    'value',
+    snapshot => {
+      const feed = snapshot.val() || {}
+      const sortedIds = Object.keys(feed).sort((a, b) => {
+        return feed[b].timestamp - feed[a].timestamp
+      })
+      cb({ feed, sortedIds })
+    },
+    cbError
+  )
 }

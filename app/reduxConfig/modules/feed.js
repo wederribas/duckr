@@ -1,3 +1,7 @@
+import { addListener } from 'reduxConfig/modules/listeners'
+import { listenToFeed } from 'helpers/api'
+import { addMultipleDucks } from 'reduxConfig/modules/ducks'
+
 const SETTING_FEED_LISTENER = 'SETTING_FEED_LISTENER'
 const SETTING_FEED_LISTENER_ERROR = 'SETTING_FEED_LISTENER_ERROR'
 const SETTING_FEED_LISTENER_SUCCESS = 'SETTING_FEED_LISTENER_SUCCESS'
@@ -17,7 +21,7 @@ function settingFeedListenerError (error) {
   }
 }
 
-function settingFeedListenerSuccess (ducksIds) {
+function settingFeedListenerSuccess (duckIds) {
   return {
     type: SETTING_FEED_LISTENER_SUCCESS,
     duckIds,
@@ -31,14 +35,31 @@ function addNewDuckIdToFeed (duckId) {
   }
 }
 
-function resetNewDucksAvailable () {
+export function resetNewDucksAvailable () {
   return {
     type: RESET_NEW_DUCKS_AVAILABLE,
   }
 }
 
+export function setAndHandleFeedListener () {
+  let initialFetch = true
+  return function (dispatch, getState) {
+    if (getState().listeners.feed === true) {
+      return
+    }
+    dispatch(addListener('feed'))
+    dispatch(settingFeedListener())
+    listenToFeed(({ feed, sortedIds }) => {
+      dispatch(addMultipleDucks(feed))
+      initialFetch === true
+        ? dispatch(settingFeedListenerSuccess(sortedIds))
+        : dispatch(addNewDuckIdToFeed(sortedIds[0]))
+    })
+  }
+}
+
 const initialState = {
-  isFetching: false,
+  isFeedFetching: false,
   newDucksAvailable: false,
   newDucksToAdd: [],
   error: '',
@@ -50,18 +71,18 @@ export default function feed (state = initialState, action) {
     case SETTING_FEED_LISTENER:
       return {
         ...state,
-        isFetching: true,
+        isFeedFetching: true,
       }
     case SETTING_FEED_LISTENER_ERROR:
       return {
         ...state,
-        isFetching: false,
+        isFeedFetching: false,
         error: action.error,
       }
     case SETTING_FEED_LISTENER_SUCCESS:
       return {
         ...state,
-        isFetching: false,
+        isFeedFetching: false,
         error: '',
         duckIds: action.duckIds,
         newDucksAvailable: false,

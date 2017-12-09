@@ -8,6 +8,7 @@ import * as feedActionCreators from 'reduxConfig/modules/feed'
 
 class FeedContainer extends Component {
   static propTypes = {
+    duckIds: PropTypes.array.isRequired,
     isAuthed: PropTypes.bool.isRequired,
     isFetching: PropTypes.bool.isRequired,
     newDucksAvailable: PropTypes.bool.isRequired,
@@ -28,13 +29,14 @@ class FeedContainer extends Component {
         newDucksAvailable={this.props.newDucksAvailable}
         error={this.props.error}
         isFeedFetching={this.props.isFeedFetching}
-        resetNewDucksAvailable={this.props.resetNewDucksAvailable}/>
+        resetNewDucksAvailable={this.props.resetNewDucksAvailable}
+        duckIds={this.props.duckIds}/>
     )
   }
 }
 
 function mapStateToProps ({ feed, users }) {
-  const { newDucksAvailable, error, isFeedFetching } = feed
+  const { newDucksAvailable, error, isFeedFetching, duckIds } = feed
   const { isAuthed, isFetching } = users
   return {
     newDucksAvailable,
@@ -42,6 +44,7 @@ function mapStateToProps ({ feed, users }) {
     isFeedFetching,
     isAuthed,
     isFetching,
+    duckIds,
   }
 }
 

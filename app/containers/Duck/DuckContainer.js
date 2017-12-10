@@ -24,11 +24,11 @@ class DuckContainer extends Component {
     hideReplyBtn: false,
     hideLikeCount: true,
   }
-  goToProfile (e) {
+  goToProfile = e => {
     e.stopPropagation()
     this.context.router.history.push('/' + this.props.duck.uid)
   }
-  handleClick (e) {
+  handleClick = e => {
     e.stopPropagation()
     this.context.router.history.push('/' + this.props.duck.duckId)
   }

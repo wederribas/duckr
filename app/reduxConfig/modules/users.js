@@ -29,6 +29,7 @@ function fetchingUser () {
 }
 
 function fetchingUserFailure (error) {
+  console.warn(error)
   return {
     type: FETCHING_USER_FAILURE,
     error: 'Error fetching user',
@@ -62,7 +63,7 @@ export function fetchAndHandleAuthedUser () {
         const userInfo = formatUserInfo(
           userData.displayName,
           userData.photoURL,
-          userData.uid
+          user.uid
         )
         return dispatch(fetchingUserSuccess(user.uid, userInfo, Date.now()))
       })

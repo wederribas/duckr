@@ -30,7 +30,7 @@ class DuckContainer extends Component {
   }
   handleClick = e => {
     e.stopPropagation()
-    this.context.router.history.push('/' + this.props.duck.duckId)
+    this.context.router.history.push('/duckDetail/' + this.props.duck.duckId)
   }
   render () {
     return (

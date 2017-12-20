@@ -7,6 +7,7 @@ import {
   FeedContainer,
   LogoutContainer,
   UserContainer,
+  DuckDetailsContainer,
 } from 'containers'
 
 export default function getRoutes () {
@@ -18,7 +19,8 @@ export default function getRoutes () {
           <Route path='/auth' component={AuthenticateContainer} />
           <Route path='/feed' component={FeedContainer} />
           <Route path='/logout' component={LogoutContainer} />
-          <Route path='/:uid' component={UserContainer} />
+          <Route exact={true} path='/:uid' component={UserContainer} />
+          <Route path='/duckDetail/:duckId' component={DuckDetailsContainer} />
         </Switch>
       </MainContainer>
     </Router>

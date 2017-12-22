@@ -6,13 +6,15 @@ const FETCHING_USERS_DUCKS_ERROR = 'FETCHING_USERS_DUCKS_ERROR'
 const FETCHING_USERS_DUCKS_SUCCESS = 'FETCHING_USERS_DUCKS_SUCCESS'
 const ADD_SINGLE_USERS_DUCK = 'ADD_SINGLE_USERS_DUCK'
 
-function fetchingUsersDucks () {
+function fetchingUsersDucks (uid) {
   return {
     type: FETCHING_USERS_DUCKS,
+    uid,
   }
 }
 
 function fetchingUsersDucksError (error) {
+  console.warn(error)
   return {
     type: FETCHING_USERS_DUCKS_ERROR,
     error: 'Error fetching Users Ducks Ids',
@@ -28,17 +30,16 @@ function fetchingUsersDucksSuccess (uid, duckIds, lastUpdated) {
   }
 }
 
-export function addSingleUsersDuck (uid, duckIds, lastUpdated) {
+export function addSingleUsersDuck (uid, duckIds) {
   return {
     type: ADD_SINGLE_USERS_DUCK,
     uid,
     duckIds,
-    lastUpdated,
   }
 }
 
 export function fetchAndHandleUsersDucks (uid) {
-  return function (dispatch) {
+  return function (dispatch, getState) {
     dispatch(fetchingUsersDucks())
     fetchUsersDucks(uid)
       .then(ducks => dispatch(addMultipleDucks(ducks)))
@@ -75,7 +76,7 @@ function usersDuck (state = initialUsersDuckState, action) {
 }
 
 const initialState = {
-  isFetching: false,
+  isFetching: true,
   error: '',
 }
 

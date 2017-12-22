@@ -16,16 +16,17 @@ function fetchingDuck () {
 }
 
 function fetchingDuckError (error) {
+  console.warn(error)
   return {
     type: FETCHING_DUCK_ERROR,
     error: 'Error fetching duck',
   }
 }
 
-function fetchingDuckSuccess (timestamp) {
+function fetchingDuckSuccess (duck) {
   return {
     type: FETCHING_DUCK_SUCCESS,
-    timestamp,
+    duck,
   }
 }
 
@@ -65,7 +66,7 @@ export function addMultipleDucks (ducks) {
 }
 
 export function fetchAndHandleDuck (duckId) {
-  return function (dispatch) {
+  return function (dispatch, getState) {
     dispatch(fetchingDuck())
     fetchDuck(duckId)
       .then(duck => dispatch(fetchingDuckSuccess(duck)))

@@ -15,6 +15,7 @@ function settingFeedListener () {
 }
 
 function settingFeedListenerError (error) {
+  console.warn(error)
   return {
     type: SETTING_FEED_LISTENER_ERROR,
     error: 'Error fetching feeds',
@@ -54,7 +55,8 @@ export function setAndHandleFeedListener () {
       initialFetch === true
         ? dispatch(settingFeedListenerSuccess(sortedIds))
         : dispatch(addNewDuckIdToFeed(sortedIds[0]))
-    })
+      initialFetch = false
+    }, (error) => dispatch(settingFeedListenerError(error)))
   }
 }
 
@@ -91,6 +93,7 @@ export default function feed (state = initialState, action) {
       return {
         ...state,
         newDucksToAdd: [action.duckId, ...state.newDucksToAdd],
+        newDucksAvailable: true,
       }
     case RESET_NEW_DUCKS_AVAILABLE:
       return {

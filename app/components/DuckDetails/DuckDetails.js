@@ -30,7 +30,7 @@ export default function DuckDetails ({ authedUser, duckId, isFetching, error }) 
             <DuckContainer
               duckId={duckId}
               hideLikeCount={false}
-              hideReplyBtn={false}/>
+              hideReplyBtn={true}/>
             {'MAKE REPLY'}
           </div>
           <div className={repliesContainer}>{'REPLY SECTION'}</div>

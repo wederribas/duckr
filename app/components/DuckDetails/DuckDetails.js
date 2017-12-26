@@ -10,9 +10,9 @@ import {
   replyTextArea,
 } from './styles.css'
 import { subHeader, darkBtn, errorMsg } from 'sharedStyles/styles.css'
-import { DuckContainer } from 'containers'
+import { DuckContainer, RepliesContainer } from 'containers'
 
-function Reply ({submit}) {
+function Reply ({ submit }) {
   function handleSubmit (e) {
     if (Reply.ref.value.length === 0) {
       return
@@ -25,11 +25,11 @@ function Reply ({submit}) {
   return (
     <div className={replyTextAreaContainer}>
       <textarea
-        ref={(ref) => Reply.ref = ref}
+        ref={ref => (Reply.ref = ref)}
         className={replyTextArea}
         maxLength={140}
         placeholder='Your response'
-        type='text' />
+        type='text'/>
       <button onClick={handleSubmit} className={darkBtn}>
         {'Submit'}
       </button>
@@ -45,7 +45,13 @@ DuckDetails.propTypes = {
   addAndHandleReply: PropTypes.func.isRequired,
 }
 
-export default function DuckDetails ({ authedUser, duckId, isFetching, error, addAndHandleReply }) {
+export default function DuckDetails ({
+  authedUser,
+  duckId,
+  isFetching,
+  error,
+  addAndHandleReply,
+}) {
   return (
     <div className={mainContainer}>
       {isFetching === true ? (
@@ -57,9 +63,13 @@ export default function DuckDetails ({ authedUser, duckId, isFetching, error, ad
               duckId={duckId}
               hideLikeCount={false}
               hideReplyBtn={true}/>
-            <Reply submit={(replyText) => addAndHandleReply(duckId, formatReply(authedUser, replyText))} />
+            <Reply
+              submit={replyText =>
+                addAndHandleReply(duckId, formatReply(authedUser, replyText))}/>
           </div>
-          <div className={repliesContainer}>{'REPLY SECTION'}</div>
+          <div className={repliesContainer}>
+            <RepliesContainer duckId={duckId} />
+          </div>
         </div>
       )}
       {error ? <p className={errorMsg}>{error}</p> : null}

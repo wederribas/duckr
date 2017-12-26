@@ -91,17 +91,28 @@ export function fetchDuck (duckId) {
 }
 
 export function fetchLikeCount (duckId) {
-  return ref.child(`likeCount/${duckId}`).once('value')
-    .then((snapshot) => snapshot.val() || 0)
+  return ref
+    .child(`likeCount/${duckId}`)
+    .once('value')
+    .then(snapshot => snapshot.val() || 0)
 }
 
 export function postReply (duckId, reply) {
   const replyId = ref.child(`replies/${duckId}`).push().key
-  const replyWithId = {...reply, replyId}
-  const replyPromise = ref.child(`replies/${duckId}/${replyId}`).set(replyWithId)
+  const replyWithId = { ...reply, replyId }
+  const replyPromise = ref
+    .child(`replies/${duckId}/${replyId}`)
+    .set(replyWithId)
 
   return {
     replyWithId,
     replyPromise,
   }
+}
+
+export function fetchReplies (duckId) {
+  return ref
+    .child(`replies/${duckId}`)
+    .once('value')
+    .then(snapshot => snapshot.val() || {})
 }

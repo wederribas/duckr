@@ -1,4 +1,4 @@
-import { postReply } from 'helpers/api'
+import { postReply, fetchReplies } from 'helpers/api'
 
 const ADD_REPLY = 'ADD_REPLY'
 const ADD_REPLY_ERROR = 'ADD_REPLY_ERROR'
@@ -37,7 +37,7 @@ function fetchinRepliesError (error) {
   }
 }
 
-function fetchingRepliesSuccess (replies, duckId) {
+function fetchingRepliesSuccess (duckId, replies) {
   return {
     type: FETCHING_REPLIES_SUCCESS,
     replies,
@@ -59,10 +59,20 @@ export function addAndHandleReply (duckId, reply) {
     const { replyWithId, replyPromise } = postReply(duckId, reply)
 
     dispatch(addReply(duckId, replyWithId))
-    replyPromise.catch((error) => {
+    replyPromise.catch(error => {
       dispatch(removeReply(duckId, replyWithId.replyId))
       dispatch(addReplyError(error))
     })
+  }
+}
+
+export function fetchAndHandleReplies (duckId) {
+  return function (dispatch) {
+    dispatch(fetchingReplies())
+
+    fetchReplies(duckId)
+      .then(replies => dispatch(fetchingRepliesSuccess(duckId, replies)))
+      .catch(error => dispatch(fetchinRepliesError(error)))
   }
 }
 
@@ -103,13 +113,13 @@ function repliesAndLastUpdated (state = initialDuckState, action) {
       return {
         ...state,
         lastUpdated: action.lastUpdated,
-        replies: actions.replies,
+        replies: action.replies,
       }
     case ADD_REPLY:
     case REMOVE_REPLY:
       return {
         ...state,
-        replies: duckReplies(state.replies, action)
+        replies: duckReplies(state.replies, action),
       }
     default:
       return state
@@ -142,7 +152,7 @@ export default function replies (state = initialState, action) {
         ...state,
         isFetching: false,
         error: '',
-        [action.duckId]: repliesAndLastUpdated(state[action.duckId], action)
+        [action.duckId]: repliesAndLastUpdated(state[action.duckId], action),
       }
     default:
       return state

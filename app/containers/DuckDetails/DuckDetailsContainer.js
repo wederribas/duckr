@@ -41,20 +41,23 @@ class DuckDetailsContainer extends Component {
 
 function mapStateToProps ({ ducks, likeCount, users }, props) {
   return {
-    isFetching: ducks.isFetching || likeCount.isFetching,
-    error: ducks.error,
+    isFetching: ducks.get('isFetching') || likeCount.isFetching,
+    error: ducks.get('error'),
     authedUser: users[users.authedId].info,
     duckId: props.match.params.duckId,
-    duckAlreadyFetched: !!ducks[props.match.params.duckId],
+    duckAlreadyFetched: !!ducks.get(props.match.params.duckId),
   }
 }
 
 function mapDispatchToProps (dispatch) {
-  return bindActionCreators({
-    ...duckActionCreators,
-    ...likeCountActionCreators,
-    ...repliesActionCreators,
-  }, dispatch)
+  return bindActionCreators(
+    {
+      ...duckActionCreators,
+      ...likeCountActionCreators,
+      ...repliesActionCreators,
+    },
+    dispatch
+  )
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(

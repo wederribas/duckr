@@ -30,11 +30,11 @@ function fetchingUsersDucksSuccess (uid, duckIds, lastUpdated) {
   }
 }
 
-export function addSingleUsersDuck (uid, duckIds) {
+export function addSingleUsersDuck (uid, duckId) {
   return {
     type: ADD_SINGLE_USERS_DUCK,
     uid,
-    duckIds,
+    duckId,
   }
 }
 

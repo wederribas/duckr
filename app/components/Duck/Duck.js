@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Map } from 'immutable'
 import { formatTimestamp } from 'helpers/utils'
 import Reply from 'react-icons/lib/fa/mail-reply'
 import Star from 'react-icons/lib/fa/star'
@@ -17,17 +18,10 @@ import {
   author,
 } from './styles.css'
 
-const { func, bool, number, shape, string } = PropTypes
+const { func, bool, number, instanceOf } = PropTypes
 
 Duck.propTypes = {
-  duck: shape({
-    avatar: string.isRequired,
-    duckId: string.isRequired,
-    name: string.isRequired,
-    text: string.isRequired,
-    timestamp: number.isRequired,
-    uid: string.isRequired,
-  }),
+  duck: instanceOf(Map),
   onClick: func,
   isLiked: bool.isRequired,
   addAndHandleLike: func.isRequired,
@@ -47,21 +41,21 @@ export default function Duck (props) {
       className={duckContainer}
       style={{ cursor: props.hideReplyBtn === true ? 'default' : 'pointer' }}
       onClick={props.onClick}>
-      <img src={props.duck.avatar} className={avatar} />
+      <img src={props.duck.get('avatar')} className={avatar} />
       <div className={contentContainer}>
         <div className={header}>
           <div onClick={props.goToProfile} className={author}>
-            {props.duck.name}
+            {props.duck.get('name')}
           </div>
-          <div>{formatTimestamp(props.duck.timestamp)}</div>
+          <div>{formatTimestamp(props.duck.get('timestamp'))}</div>
         </div>
-        <div className={text}>{props.duck.text}</div>
+        <div className={text}>{props.duck.get('text')}</div>
         <div className={likeReplyContainer}>
           {props.hideReplyBtn === true ? null : <Reply className={icon} />}
           <div className={actionContainer}>
             <Star
               className={starIcon}
-              onClick={e => starFn(props.duck.duckId, e)}/>
+              onClick={e => starFn(props.duck.get('duckId'), e)}/>
             {props.hideLikeCount === true ? null : (
               <div>{props.numberOfLikes}</div>
             )}

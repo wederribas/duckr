@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { List } from 'immutable'
 import { newDuckContainer, header } from './styles.css'
 import { errorMsg } from 'sharedStyles/styles.css'
 import { DuckContainer } from 'containers'
@@ -17,7 +18,7 @@ function NewDucksAvailable ({ handleClick }) {
 }
 
 Feed.propTypes = {
-  duckIds: PropTypes.array.isRequired,
+  duckIds: PropTypes.instanceOf(List),
   error: PropTypes.string.isRequired,
   isFeedFetching: PropTypes.bool.isRequired,
   newDucksAvailable: PropTypes.bool.isRequired,
@@ -32,7 +33,7 @@ export default function Feed (props) {
       {props.newDucksAvailable ? (
         <NewDucksAvailable handleClick={props.resetNewDucksAvailable} />
       ) : null}
-      {props.duckIds.length === 0 ? (
+      {props.duckIds.size === 0 ? (
         <p className={header}>
           {'This is unfortunate.'} <br />{' '}
           {'It appears there are no ducks yet :-('}

@@ -1,3 +1,4 @@
+import { fromJS, List } from 'immutable'
 import { addListener } from 'reduxConfig/modules/listeners'
 import { listenToFeed } from 'helpers/api'
 import { addMultipleDucks } from 'reduxConfig/modules/ducks'
@@ -50,58 +51,56 @@ export function setAndHandleFeedListener () {
     }
     dispatch(addListener('feed'))
     dispatch(settingFeedListener())
-    listenToFeed(({ feed, sortedIds }) => {
-      dispatch(addMultipleDucks(feed))
-      initialFetch === true
-        ? dispatch(settingFeedListenerSuccess(sortedIds))
-        : dispatch(addNewDuckIdToFeed(sortedIds[0]))
-      initialFetch = false
-    }, (error) => dispatch(settingFeedListenerError(error)))
+    listenToFeed(
+      ({ feed, sortedIds }) => {
+        dispatch(addMultipleDucks(feed))
+        initialFetch === true
+          ? dispatch(settingFeedListenerSuccess(sortedIds))
+          : dispatch(addNewDuckIdToFeed(sortedIds[0]))
+        initialFetch = false
+      },
+      error => dispatch(settingFeedListenerError(error))
+    )
   }
 }
 
-const initialState = {
+const initialState = fromJS({
   isFeedFetching: false,
   newDucksAvailable: false,
   newDucksToAdd: [],
   error: '',
   duckIds: [],
-}
+})
 
 export default function feed (state = initialState, action) {
   switch (action.type) {
     case SETTING_FEED_LISTENER:
-      return {
-        ...state,
+      return state.merge({
         isFeedFetching: true,
-      }
+      })
     case SETTING_FEED_LISTENER_ERROR:
-      return {
-        ...state,
+      return state.merge({
         isFeedFetching: false,
         error: action.error,
-      }
+      })
     case SETTING_FEED_LISTENER_SUCCESS:
-      return {
-        ...state,
+      return state.merge({
         isFeedFetching: false,
         error: '',
         duckIds: action.duckIds,
         newDucksAvailable: false,
-      }
+      })
     case ADD_NEW_DUCK_ID_TO_FEED:
-      return {
-        ...state,
-        newDucksToAdd: [action.duckId, ...state.newDucksToAdd],
+      return state.merge({
+        newDucksToAdd: state.get('newDucksToAdd').unshift(action.duckId),
         newDucksAvailable: true,
-      }
+      })
     case RESET_NEW_DUCKS_AVAILABLE:
-      return {
-        ...state,
-        duckIds: [...state.newDucksToAdd, ...state.duckIds],
+      return state.merge({
+        duckIds: state.get('newDucksToAdd').concat(state.get('duckIds')),
         newDucksToAdd: [],
         newDucksAvailable: false,
-      }
+      })
     default:
       return state
   }

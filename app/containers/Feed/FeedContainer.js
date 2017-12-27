@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { List } from 'immutable'
 import { Feed } from 'components'
 import { redirectBasedOnAuth } from 'helpers/auth'
 import * as feedActionCreators from 'reduxConfig/modules/feed'
 
 class FeedContainer extends Component {
   static propTypes = {
-    duckIds: PropTypes.array.isRequired,
+    duckIds: PropTypes.instanceOf(List),
     isAuthed: PropTypes.bool.isRequired,
     isFetching: PropTypes.bool.isRequired,
     newDucksAvailable: PropTypes.bool.isRequired,
@@ -36,15 +37,14 @@ class FeedContainer extends Component {
 }
 
 function mapStateToProps ({ feed, users }) {
-  const { newDucksAvailable, error, isFeedFetching, duckIds } = feed
   const { isAuthed, isFetching } = users
   return {
-    newDucksAvailable,
-    error,
-    isFeedFetching,
+    newDucksAvailable: feed.get('newDucksAvailable'),
+    error: feed.get('error'),
+    isFeedFetching: feed.get('isFeedFetching'),
+    duckIds: feed.get('duckIds'),
     isAuthed,
     isFetching,
-    duckIds,
   }
 }
 

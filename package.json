@@ -10,7 +10,9 @@
     "flow start": "flow start",
     "flow stop": "flow stop",
     "flow status": "flow status",
-    "flow coverage": "flow coverage"
+    "flow coverage": "flow coverage",
+    "deploy": "npm run build && firebase deploy",
+    "firebase-init": "firebase login && firebase init"
   },
   "babel": {
     "presets": ["react"],

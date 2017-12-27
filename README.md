@@ -12,7 +12,7 @@ All data is persisted in the Firebase real-time database. The authentication is 
 
 The Duckr app is a Twitter-like app that allows you to post your Ducks (not Tweets, ok? lol). You will be able to see all Ducks in your feed, as well as access others users' feed. You may also comment in existent Ducks and interact with the others users.
 
-Access the live version [here](https://duckr.firebaseapp.com).
+Access the live version [here](https://duckr-react.firebaseapp.com).
 
 ## Built With
 

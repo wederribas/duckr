@@ -13,14 +13,22 @@
     "flow coverage": "flow coverage"
   },
   "babel": {
-    "presets": ["react"],
-    "plugins": ["transform-class-properties"]
+    "presets": [
+      "react"
+    ],
+    "plugins": [
+      "transform-class-properties"
+    ]
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wederribas/duckr.git"
   },
-  "keywords": ["reacjs", "redux", "javascript"],
+  "keywords": [
+    "reacjs",
+    "redux",
+    "javascript"
+  ],
   "author": "Weder Ribas @wederribas",
   "license": "MIT",
   "bugs": {
@@ -29,6 +37,7 @@
   "homepage": "https://github.com/wederribas/duckr#readme",
   "dependencies": {
     "firebase": "^4.6.2",
+    "immutable": "^3.8.2",
     "prop-types": "^15.6.0",
     "react": "^16.1.1",
     "react-dom": "^16.1.1",
